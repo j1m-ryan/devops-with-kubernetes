@@ -13,5 +13,5 @@ spec:
     spec:
       containers:
       - name: todo
-        image: jimryan/todo
+        image: jimryan/todo:latest
 

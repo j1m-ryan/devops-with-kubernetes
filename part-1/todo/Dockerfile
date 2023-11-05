@@ -60,6 +60,9 @@ USER appuser
 # Copy the executable from the "build" stage.
 COPY --from=build /bin/server /bin/
 
+# Copy public folder
+COPY ./public ./public
+
 # Expose the port that the application listens on.
 EXPOSE 3000
 
