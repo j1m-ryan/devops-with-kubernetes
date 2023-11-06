@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pong-dep 
+spec:
+  selector:
+    matchLabels:
+      app: pong 
+  template:
+    metadata:
+      labels:
+        app: pong 
+    spec:
+      containers:
+      - name: pong 
+        image: jimryan/pong@sha256:e1a47673d2a0fb7674db55ab7425670d60fc91b72108779f8e0930902d5466cc 
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000

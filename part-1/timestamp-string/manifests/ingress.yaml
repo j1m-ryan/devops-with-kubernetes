@@ -15,3 +15,10 @@ spec:
             name: timestamp-string-svc 
             port: 
               number: 2345 
+      - pathType: Prefix
+        path: "/pingpong"
+        backend:
+          service:
+            name: pong-svc 
+            port: 
+              number: 2346 
