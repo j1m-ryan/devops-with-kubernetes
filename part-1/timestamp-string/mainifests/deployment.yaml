@@ -1,17 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hashgenerator-dep
+  name: timestamp-string-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hashgenerator
+      app: timestamp-string 
   template:
     metadata:
       labels:
-        app: hashgenerator 
+        app: timestamp-string 
     spec:
       containers:
-      - name: hashgenerator 
-        image: jimryan/timestamp-string:latest
+      - name: timestamp-string 
+        image: jimryan/timestamp-string@sha256:88ce46669d4502c33f2159479f49dac452cf1169085e05ea5ec1041f6d6e7d61
+        imagePullPolicy: Always

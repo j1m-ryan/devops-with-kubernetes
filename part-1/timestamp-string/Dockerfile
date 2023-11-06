@@ -61,7 +61,7 @@ USER appuser
 COPY --from=build /bin/server /bin/
 
 # Expose the port that the application listens on.
-EXPOSE 4242
+EXPOSE 3000 
 
 # What the container should run when it is started.
 CMD ["/bin/server"]
