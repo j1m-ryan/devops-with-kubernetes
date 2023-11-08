@@ -12,7 +12,19 @@ spec:
       labels:
         app: timestamp-string 
     spec:
+      volumes:
+        - name: shared-time
+          emptyDir: {}
       containers:
-      - name: timestamp-string 
-        image: jimryan/timestamp-string@sha256:88ce46669d4502c33f2159479f49dac452cf1169085e05ea5ec1041f6d6e7d61
+      - name: timestamp-reader 
+        image: jimryan/timestamp-reader:latest
         imagePullPolicy: Always
+        volumeMounts:
+          - name: shared-time
+            mountPath: /usr/src/app/files
+      - name: timestamp-writer 
+        image: jimryan/timestamp-writer:latest
+        imagePullPolicy: Always
+        volumeMounts:
+          - name: shared-time
+            mountPath: /usr/src/app/files
