@@ -56,6 +56,7 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 RUN mkdir -p /usr/src/app/files
+RUN mkdir -p /tmp/kube
 USER appuser
 
 # Copy the executable from the "build" stage.

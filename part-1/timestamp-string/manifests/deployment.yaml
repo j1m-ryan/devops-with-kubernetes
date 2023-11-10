@@ -15,16 +15,23 @@ spec:
       volumes:
         - name: shared-time
           emptyDir: {}
+        - name: persistent-pong 
+          persistentVolumeClaim:
+            claimName: pong-claim
       containers:
       - name: timestamp-reader 
-        image: jimryan/timestamp-reader:latest
+        image: jimryan/timestamp-reader@sha256:941426969539c63ef4ff3130da783b66e321f50b366d754d2262ff7cc890a3bd
         imagePullPolicy: Always
         volumeMounts:
           - name: shared-time
             mountPath: /usr/src/app/files
+          - name: persistent-pong
+            mountPath: /tmp/kube
       - name: timestamp-writer 
-        image: jimryan/timestamp-writer:latest
+        image: jimryan/timestamp-writer@sha256:87c2b48f1d298c82b8ef713c322e40a16446f28433857e7441ba9188ae9f227e
         imagePullPolicy: Always
         volumeMounts:
           - name: shared-time
             mountPath: /usr/src/app/files
+          - name: persistent-pong
+            mountPath: /tmp/kube

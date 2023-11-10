@@ -13,6 +13,12 @@ async fn main() {
         PathBuf::from("/usr/src/app/files/time.txt")
     };
 
+    let pong_path = if is_dev_mode {
+        PathBuf::from(format!("{}/../../pong/state.txt", manifest_dir))
+    } else {
+        PathBuf::from("/tmp/kube/state.txt")
+    };
+
     let app = Router::new().route(
         "/",
         get(move || {
@@ -20,13 +26,33 @@ async fn main() {
             let my_uuid = my_uuid.clone();
             async move {
                 let file = File::open(&path);
+                let pong_file = File::open(&pong_path);
                 match file {
-                    Ok(file) => {
-                        let mut reader = std::io::BufReader::new(file);
-                        let mut contents = String::new();
-                        reader.read_to_string(&mut contents).unwrap();
-                        format!("{}: {}", my_uuid, contents)
-                    }
+                    Ok(file) => match pong_file {
+                        Ok(pong_file) => {
+                            let mut reader: std::io::BufReader<File> =
+                                std::io::BufReader::new(file);
+                            let mut contents = String::new();
+                            reader.read_to_string(&mut contents).unwrap();
+
+                            let mut pong_reader = std::io::BufReader::new(pong_file);
+                            let mut pong_contents = String::new();
+                            pong_reader.read_to_string(&mut pong_contents).unwrap();
+                            format!(
+                                "{}: {}\nPing / Pongs: {} ",
+                                my_uuid, contents, pong_contents
+                            )
+                        }
+                        Err(e) => {
+                            println!("Error: {}", e);
+                            let mut reader: std::io::BufReader<File> =
+                                std::io::BufReader::new(file);
+                            let mut contents = String::new();
+                            reader.read_to_string(&mut contents).unwrap();
+
+                            format!("{}: {}\nPing / Pongs: {} ", my_uuid, contents, 0)
+                        }
+                    },
                     Err(e) => {
                         println!("Error: {}", e);
                         format!("{}: {}", my_uuid, e)
