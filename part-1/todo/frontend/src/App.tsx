@@ -1,10 +1,24 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+const todos = [
+  {
+    id: 1,
+    title: "Do laundry",
+    completed: false,
+  },
+  {
+    id: 2,
+    title: "Cook dinner",
+    completed: true,
+  },
+];
+
 function App() {
   const [imageSrc, setImageSrc] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const backendUrl = import.meta.env.BACKEND_URL || "";
+  const is_dev_mode = import.meta.env.MODE === "development";
+  const backendUrl = is_dev_mode ? "http://localhost:3000" : "";
 
   useEffect(() => {
     const loadImage = async () => {
@@ -32,6 +46,17 @@ function App() {
       ) : (
         <img src={imageSrc} alt="a random image" />
       )}
+      <div>
+        <input maxLength={140} /> <button>Create Todo</button>
+      </div>
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            <input type="checkbox" checked={todo.completed} />
+            {todo.title}
+          </li>
+        ))}
+      </ul>
     </>
   );
 }

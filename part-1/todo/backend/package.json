@@ -2,12 +2,16 @@
   "name": "backend",
   "version": "1.0.50",
   "scripts": {
+    "start:docker": "docker run -p 3000:3000 jimryan/todo",
+    "build:docker": "docker build -t jimryan/todo .",
+    "build:docker:full": "bun run copy:frontend && docker build -t jimryan/todo .",
     "build:frontend": "cd ../frontend && bun run build",
     "copy:frontend": "bun run build:frontend && cd ../backend && mkdir -p ./public && cp -r ../frontend/dist/* ./public",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@elysiajs/cors": "^0.7.1",
     "@elysiajs/html": "^0.7.3",
     "@elysiajs/static": "^0.7.1",
     "elysia": "latest"

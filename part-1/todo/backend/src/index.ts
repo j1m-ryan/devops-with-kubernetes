@@ -1,6 +1,7 @@
 import { Elysia } from "elysia";
 import { staticPlugin } from "@elysiajs/static";
 import { html } from "@elysiajs/html";
+import cors from "@elysiajs/cors";
 
 let is_dev = process.env.NODE_ENV === "development";
 let basePath = is_dev ? "./public" : "/tmp/kube";
@@ -13,6 +14,7 @@ const app = new Elysia()
       prefix: "/",
     })
   )
+  .use(cors())
   .use(html())
   .get("/", async () => {
     return Bun.file(`./public/index.html`);
