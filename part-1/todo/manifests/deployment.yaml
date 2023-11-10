@@ -11,7 +11,14 @@ spec:
       labels:
         app: todo
     spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: image-claim
       containers:
       - name: todo
-        image: jimryan/todo:latest
+        image: jimryan/todo@sha256:14e2b34c4699fa71184f8e6d8c04d4e41bc75a7f0af9b8f7e352e646904c1eea
+        volumeMounts:
+          - name: shared-image
+            mountPath: /tmp/kube
 
